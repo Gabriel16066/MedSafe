@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MedSafe – Uso Consciente de Medicamentos</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F4F2; display: flex; justify-content: center; padding: 20px; min-height: 100vh; }
+  .phone {
+    width: 360px;
+    min-height: 680px;
+    background: #fff;
+    border-radius: 32px;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+    position: relative;
+  }
+  .status-bar { background: #0A5C4A; color: #fff; font-size: 11px; padding: 6px 18px; display: flex; justify-content: space-between; }
+  .header { background: #0A5C4A; color: #fff; padding: 10px 16px 14px; flex-shrink: 0; }
+  .header-top { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .header-logo { width: 28px; height: 28px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .header h1 { font-size: 18px; font-weight: 600; color: #fff; }
+  .header p { font-size: 11px; color: rgba(255,255,255,0.75); margin-left: 36px; }
+  .back-btn { background: none; border: none; color: rgba(255,255,255,0.85); font-size: 13px; cursor: pointer; padding: 0; display: flex; align-items: center; gap: 4px; margin-bottom: 4px; font-family: inherit; }
+  .back-btn:hover { color: #fff; }
+  .screen { flex: 1; overflow-y: auto; display: none; flex-direction: column; }
+  .screen.active { display: flex; }
+  .content { padding: 16px; flex: 1; }
+  .hero-msg { background: #E8F7F0; border-left: 3px solid #0A5C4A; border-radius: 0 8px 8px 0; padding: 10px 12px; margin-bottom: 16px; font-size: 13px; color: #0A5C4A; font-weight: 600; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .nav-btn { background: #F6F8F7; border: 1px solid #e0e0e0; border-radius: 14px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: all 0.15s; }
+  .nav-btn:hover { background: #E8F7F0; border-color: #0A5C4A; }
+  .nav-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .nav-btn span { font-size: 12px; font-weight: 500; color: #222; text-align: center; }
+  .section-title { font-size: 11px; font-weight: 600; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .emergency-btn { background: #FEF3F3; border: 1px solid #F0A0A0; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 12px; transition: all 0.15s; }
+  .emergency-btn:hover { background: #FDEAEA; }
+  .emergency-icon { width: 40px; height: 40px; background: #E24B4A; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0; }
+  .e-title { font-size: 13px; font-weight: 600; color: #A32D2D; }
+  .e-sub { font-size: 11px; color: #E24B4A; }
+  .e-num { font-size: 20px; font-weight: 700; color: #A32D2D; margin-left: auto; }
+  .search-input { width: 100%; padding: 10px 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; margin-bottom: 14px; background: #fff; outline: none; font-family: inherit; }
+  .search-input:focus { border-color: #0A5C4A; }
+  .med-card { background: #F6F8F7; border: 1px solid #e0e0e0; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+  .med-card-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .pill-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .pill-green { background: #E8F7F0; color: #0A5C4A; }
+  .pill-amber { background: #FAEEDA; color: #854F0B; }
+  .info-row { display: flex; gap: 6px; margin-bottom: 6px; font-size: 12px; align-items: flex-start; }
+  .info-label { color: #777; min-width: 82px; flex-shrink: 0; }
+  .info-val { color: #222; }
+  .warning-box { background: #FEF8E8; border: 1px solid #EF9F27; border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #633806; margin-top: 8px; }
+  .symptom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .sym-btn { border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px 8px; background: #F6F8F7; cursor: pointer; text-align: center; font-size: 13px; color: #222; transition: all 0.15s; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: inherit; }
+  .sym-btn.selected { background: #E8F7F0; border-color: #0A5C4A; color: #0A5C4A; }
+  .sym-btn:hover { border-color: #0A5C4A; }
+  .sym-btn span { font-size: 20px; }
+  .result-card { border-radius: 12px; padding: 14px; margin-top: 12px; display: none; }
+  .result-card.visible { display: block; }
+  .result-warn { background: #FEF3F3; border: 1px solid #F09595; }
+  .result-ok { background: #E8F7F0; border: 1px solid #1D9E75; }
+  .learn-card { background: #F6F8F7; border: 1px solid #e0e0e0; border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
+  .learn-card-header { display: flex; align-items: center; gap: 10px; }
+  .learn-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .learn-title { font-size: 14px; font-weight: 600; color: #111; }
+  .learn-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .learn-body { font-size: 12px; color: #555; margin-top: 10px; line-height: 1.6; display: none; }
+  .learn-body.open { display: block; }
+  .alert-card { border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+  .alert-red { background: #FCEBEB; border: 1px solid #F09595; }
+  .alert-amber { background: #FAEEDA; border: 1px solid #FAC775; }
+  .alert-card-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .alert-red .alert-card-title { color: #A32D2D; }
+  .alert-amber .alert-card-title { color: #633806; }
+  .alert-red p { color: #791F1F; font-size: 12px; line-height: 1.6; }
+  .alert-amber p { color: #854F0B; font-size: 12px; line-height: 1.6; }
+  .quiz-btn { width: 100%; padding: 12px 16px; text-align: left; border: 1px solid #ccc; border-radius: 10px; background: #F6F8F7; font-size: 14px; color: #222; cursor: pointer; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.15s; font-family: inherit; }
+  .quiz-btn:hover { border-color: #0A5C4A; }
+  .quiz-btn.yes { background: #FCEBEB; border-color: #F09595; color: #A32D2D; }
+  .quiz-btn.no { background: #E8F7F0; border-color: #1D9E75; color: #0A5C4A; }
+  .quiz-result { border-radius: 12px; padding: 16px; text-align: center; display: none; flex-direction: column; gap: 8px; align-items: center; }
+  .quiz-result.visible { display: flex; }
+  .quiz-result.go { background: #FCEBEB; }
+  .quiz-result.stay { background: #E8F7F0; }
+  .quiz-result .big-icon { font-size: 40px; }
+  .quiz-result .r-title { font-size: 16px; font-weight: 600; }
+  .quiz-result.go .r-title { color: #A32D2D; }
+  .quiz-result.stay .r-title { color: #0A5C4A; }
+  .quiz-result.go p { color: #791F1F; font-size: 12px; }
+  .quiz-result.stay p { color: #0F6E56; font-size: 12px; }
+  .emg-samu { background: #E24B4A; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px; margin-bottom: 14px; cursor: pointer; }
+  .samu-num { font-size: 34px; font-weight: 700; color: #fff; }
+  .samu-label { font-size: 11px; color: rgba(255,255,255,0.85); }
+  .samu-name { font-size: 15px; font-weight: 600; color: #fff; }
+  .emg-card { background: #F6F8F7; border: 1px solid #e0e0e0; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+  .emg-card-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 6px; }
+  .emg-card p { font-size: 12px; color: #555; line-height: 1.6; }
+  .form-group { margin-bottom: 10px; }
+  .form-label { font-size: 12px; color: #777; margin-bottom: 4px; }
+  .form-input { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; background: #fff; color: #222; outline: none; font-family: inherit; }
+  .form-input:focus { border-color: #0A5C4A; }
+  .add-btn { width: 100%; padding: 12px; background: #0A5C4A; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .add-btn:hover { background: #085040; }
+  .reminder-item { background: #F6F8F7; border: 1px solid #e0e0e0; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .ri-icon { font-size: 22px; }
+  .ri-name { font-size: 13px; font-weight: 600; color: #111; }
+  .ri-time { font-size: 12px; color: #777; }
+  .ri-badge { margin-left: auto; background: #E8F7F0; color: #0A5C4A; border-radius: 8px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .bottom-bar { display: flex; border-top: 1px solid #e0e0e0; background: #fff; flex-shrink: 0; }
+  .bb-btn { flex: 1; padding: 8px 4px 7px; display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: none; cursor: pointer; font-family: inherit; transition: all 0.12s; }
+  .bb-icon { font-size: 20px; }
+  .bb-label { font-size: 10px; color: #888; }
+  .bb-btn.active .bb-label { color: #0A5C4A; font-weight: 600; }
+  .header-red { background: #A32D2D; }
+  .header-red .back-btn { color: rgba(255,255,255,0.85); }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+
+  <!-- Cabeçalho dinâmico -->
+  <div class="header" id="app-header">
+    <div class="header-top">
+      <div class="header-logo">💊</div>
+      <h1>MedSafe</h1>
+    </div>
+    <p>Uso consciente de medicamentos</p>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="content">
+      <div class="hero-msg">💬 Use medicamentos com segurança!</div>
+      <div class="section-title">Menu principal</div>
+      <div class="grid-2">
+        <div class="nav-btn" onclick="goto('buscar','🔍 Buscar medicamento','#0A5C4A')">
+          <div class="nav-icon" style="background:#E8F7F0;">🔍</div><span>Buscar medicamento</span>
+        </div>
+        <div class="nav-btn" onclick="goto('sintomas','🤒 Sintomas','#0A5C4A')">
+          <div class="nav-icon" style="background:#EEF0FE;">🤒</div><span>Sintomas</span>
+        </div>
+        <div class="nav-btn" onclick="goto('aprender','🧠 Aprender','#0A5C4A')">
+          <div class="nav-icon" style="background:#FAEEDA;">🧠</div><span>Aprender</span>
+        </div>
+        <div class="nav-btn" onclick="goto('alertas','⚠️ Alertas de risco','#0A5C4A')">
+          <div class="nav-icon" style="background:#FEF8E8;">⚠️</div><span>Alertas de risco</span>
+        </div>
+        <div class="nav-btn" onclick="goto('medico','👨‍⚕️ Preciso de médico?','#0A5C4A')">
+          <div class="nav-icon" style="background:#E8F7F0;">👨‍⚕️</div><span>Preciso de médico?</span>
+        </div>
+        <div class="nav-btn" onclick="goto('lembrete','⏰ Lembretes','#0A5C4A')">
+          <div class="nav-icon" style="background:#EEF3FB;">⏰</div><span>Lembretes</span>
+        </div>
+      </div>
+      <div class="emergency-btn" onclick="goto('emergencia','🚨 Emergência','#A32D2D')">
+        <div class="emergency-icon">🚨</div>
+        <div style="flex:1">
+          <div class="e-title">Emergência</div>
+          <div class="e-sub">Intoxicação • Reações graves</div>
+        </div>
+        <div class="e-num">SAMU 192</div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <button class="bb-btn active" id="bb-home" onclick="goto('home','','')"><span class="bb-icon">🏠</span><span class="bb-label">Início</span></button>
+      <button class="bb-btn" id="bb-buscar" onclick="goto('buscar','🔍 Buscar medicamento','#0A5C4A')"><span class="bb-icon">🔍</span><span class="bb-label">Buscar</span></button>
+      <button class="bb-btn" id="bb-lembrete" onclick="goto('lembrete','⏰ Lembretes','#0A5C4A')"><span class="bb-icon">⏰</span><span class="bb-label">Lembrete</span></button>
+      <button class="bb-btn" id="bb-emergencia" onclick="goto('emergencia','🚨 Emergência','#A32D2D')"><span class="bb-icon">🚨</span><span class="bb-label">Emergência</span></button>
+    </div>
+  </div>
+
+  <!-- BUSCAR -->
+  <div class="screen" id="screen-buscar">
+    <div class="content">
+      <input class="search-input" type="text" placeholder="Digite o nome do remédio..." id="med-input" oninput="filterMeds()" />
+      <div id="med-results"><p style="font-size:13px;color:#888;">Digite ao menos 2 letras para buscar.</p></div>
+    </div>
+  </div>
+
+  <!-- SINTOMAS -->
+  <div class="screen" id="screen-sintomas">
+    <div class="content">
+      <p style="font-size:13px;color:#666;margin-bottom:12px;">Selecione o(s) sintoma(s) que está sentindo:</p>
+      <div class="symptom-grid">
+        <button class="sym-btn" onclick="toggleSym(this,'dor-cabeca')"><span>🤕</span>Dor de cabeça</button>
+        <button class="sym-btn" onclick="toggleSym(this,'febre')"><span>🌡️</span>Febre</button>
+        <button class="sym-btn" onclick="toggleSym(this,'garganta')"><span>😮</span>Dor de garganta</button>
+        <button class="sym-btn" onclick="toggleSym(this,'estomago')"><span>🤢</span>Dor no estômago</button>
+        <button class="sym-btn" onclick="toggleSym(this,'tosse')"><span>😷</span>Tosse</button>
+        <button class="sym-btn" onclick="toggleSym(this,'corpo')"><span>💪</span>Dores no corpo</button>
+      </div>
+      <button class="add-btn" onclick="showSymResult()">Ver orientação</button>
+      <div class="result-card" id="sym-result"></div>
+    </div>
+  </div>
+
+  <!-- APRENDER -->
+  <div class="screen" id="screen-aprender">
+    <div class="content">
+      <div class="learn-card" onclick="toggleLearn(this)">
+        <div class="learn-card-header">
+          <div class="learn-icon" style="background:#FAEEDA;">📖</div>
+          <div><div class="learn-title">O que é automedicação?</div><div class="learn-sub">Toque para expandir</div></div>
+        </div>
+        <div class="learn-body">Automedicação é quando uma pessoa toma remédios por conta própria, sem consultar um médico ou farmacêutico. Embora pareça prático, pode mascarar doenças mais graves e causar interações perigosas entre medicamentos.</div>
+      </div>
+      <div class="learn-card" onclick="toggleLearn(this)">
+        <div class="learn-card-header">
+          <div class="learn-icon" style="background:#FCEBEB;">⛔</div>
+          <div><div class="learn-title">Por que é perigosa?</div><div class="learn-sub">Toque para expandir</div></div>
+        </div>
+        <div class="learn-body">Cada remédio age de forma diferente em cada organismo. Usar sem orientação pode causar: reações alérgicas graves, danos ao fígado e rins, resistência a antibióticos e mascaramento de doenças sérias que precisam de tratamento adequado.</div>
+      </div>
+      <div class="learn-card" onclick="toggleLearn(this)">
+        <div class="learn-card-header">
+          <div class="learn-icon" style="background:#E8F7F0;">✅</div>
+          <div><div class="learn-title">Uso correto de medicamentos</div><div class="learn-sub">Toque para expandir</div></div>
+        </div>
+        <div class="learn-body">Sempre siga a prescrição médica. Respeite os horários e a dosagem indicada. Não interrompa o tratamento antes do prazo, mesmo sentindo melhora. Guarde os remédios em local fresco, seco e longe do alcance de crianças.</div>
+      </div>
+      <div class="learn-card" onclick="toggleLearn(this)">
+        <div class="learn-card-header">
+          <div class="learn-icon" style="background:#EEF0FE;">💊</div>
+          <div><div class="learn-title">Antibióticos: atenção especial</div><div class="learn-sub">Toque para expandir</div></div>
+        </div>
+        <div class="learn-body">Antibióticos só funcionam contra bactérias — não têm efeito em gripes e resfriados. Usar sem receita cria bactérias resistentes, tornando infecções futuras muito mais difíceis de tratar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTAS -->
+  <div class="screen" id="screen-alertas">
+    <div class="content">
+      <div class="alert-card alert-red">
+        <div class="alert-card-title">⛔ Paracetamol em excesso</div>
+        <p>Tomar mais de 4g por dia pode causar insuficiência hepática grave, mesmo em pessoas saudáveis. Não ultrapasse a dose recomendada pelo médico ou bula.</p>
+      </div>
+      <div class="alert-card alert-red">
+        <div class="alert-card-title">⛔ Misturar remédios sem orientação</div>
+        <p>Combinar medicamentos é perigoso. Ibuprofeno + aspirina, por exemplo, aumenta o risco de sangramento interno. Sempre consulte um profissional de saúde.</p>
+      </div>
+      <div class="alert-card alert-amber">
+        <div class="alert-card-title">⚠️ Uso sem receita médica</div>
+        <p>Antibióticos e remédios controlados exigem receita. Comprar sem prescrição é ilegal e coloca sua saúde em sério risco.</p>
+      </div>
+      <div class="alert-card alert-amber">
+        <div class="alert-card-title">⚠️ Álcool + medicamentos</div>
+        <p>Misturar álcool com analgésicos, antibióticos ou antidepressivos pode causar reações sérias como queda de pressão e danos ao fígado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRECISO DE MÉDICO -->
+  <div class="screen" id="screen-medico">
+    <div class="content">
+      <p style="font-size:13px;color:#666;margin-bottom:14px;">Responda as perguntas para receber uma orientação:</p>
+      <div id="quiz-q"></div>
+      <div class="quiz-result" id="quiz-result"></div>
+    </div>
+  </div>
+
+  <!-- LEMBRETE -->
+  <div class="screen" id="screen-lembrete">
+    <div class="content">
+      <div style="margin-bottom:14px;">
+        <div class="form-group"><div class="form-label">Nome do medicamento</div><input class="form-input" type="text" placeholder="Ex: Amoxicilina 500mg" id="r-name" /></div>
+        <div class="form-group"><div class="form-label">Horário</div><input class="form-input" type="time" id="r-time" /></div>
+        <button class="add-btn" onclick="addReminder()">+ Adicionar lembrete</button>
+      </div>
+      <div class="section-title">Seus lembretes</div>
+      <div id="reminders-list">
+        <div class="reminder-item">
+          <span class="ri-icon">💊</span>
+          <div><div class="ri-name">Vitamina D</div><div class="ri-time">Todos os dias às 08:00</div></div>
+          <span class="ri-badge">Ativo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMERGÊNCIA -->
+  <div class="screen" id="screen-emergencia">
+    <div class="content">
+      <div class="emg-samu">
+        <div><div class="samu-label">Ligue agora</div><div class="samu-num">192</div></div>
+        <div><div class="samu-name">SAMU</div><div class="samu-label">Serviço de Atendimento<br>Móvel de Urgência</div></div>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-title">🧪 Intoxicação por medicamento</div>
+        <p>Sinais: vômito, confusão mental, respiração lenta. <strong>O que fazer:</strong> ligue 192 imediatamente. Não induza vômito sem orientação. Guarde a embalagem do remédio para mostrar ao socorrista.</p>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-title">🔴 Reação alérgica grave</div>
+        <p>Sinais: inchaço no rosto/garganta, dificuldade para respirar, erupção intensa. <strong>O que fazer:</strong> ligue 192, mantenha a pessoa deitada com pernas elevadas e não dê nada pela boca.</p>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-title">📞 Outros números úteis</div>
+        <p>Bombeiros: <strong>193</strong> &nbsp;·&nbsp; CVV (apoio emocional): <strong>188</strong> &nbsp;·&nbsp; Disque Saúde: <strong>136</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const meds = [
+  { name: "Ibuprofeno", badge: "Anti-inflamatório", badgeClass: "pill-green",
+    serve: "Dor, febre e inflamações (muscular, articular, menstrual).",
+    uso: "200–400mg a cada 6–8h, preferencialmente após a refeição.",
+    efeitos: "Irritação gástrica, náusea, pressão alta com uso prolongado.",
+    risco: "Pode causar úlcera e problemas renais se usado sem orientação médica." },
+  { name: "Paracetamol", badge: "Analgésico", badgeClass: "pill-green",
+    serve: "Dor leve a moderada e febre.",
+    uso: "500–1000mg a cada 4–6h. Máximo: 4g por dia.",
+    efeitos: "Raro em doses corretas. Em excesso: dano hepático grave.",
+    risco: "Não ultrapasse a dose diária. Evite associar com álcool." },
+  { name: "Amoxicilina", badge: "Antibiótico", badgeClass: "pill-amber",
+    serve: "Infecções bacterianas (garganta, ouvido, vias urinárias).",
+    uso: "500mg a cada 8h por 7–10 dias, conforme prescrição médica.",
+    efeitos: "Diarreia, náusea, reações alérgicas (erupção na pele).",
+    risco: "Exige receita médica. Não interrompa antes do prazo indicado." },
+  { name: "Dipirona", badge: "Analgésico", badgeClass: "pill-green",
+    serve: "Dor e febre. Muito usada no Brasil.",
+    uso: "500mg a cada 6–8h. Não exceder 4 doses por dia.",
+    efeitos: "Raramente: queda de pressão, reações alérgicas.",
+    risco: "Proibida em alguns países. Consulte médico se febre persistir." },
+  { name: "Loratadina", badge: "Anti-histamínico", badgeClass: "pill-green",
+    serve: "Alergias (rinite, urticária, coceira nos olhos).",
+    uso: "10mg uma vez ao dia, com ou sem alimento.",
+    efeitos: "Sonolência leve, boca seca.",
+    risco: "Não associar com álcool. Gestantes devem consultar médico." },
+  { name: "Omeprazol", badge: "Antiácido", badgeClass: "pill-green",
+    serve: "Gastrite, refluxo e proteção do estômago durante uso de AINEs.",
+    uso: "20mg em jejum, 30 min antes do café da manhã.",
+    efeitos: "Dor de cabeça, diarreia, náusea.",
+    risco: "Uso prolongado sem indicação médica pode reduzir absorção de vitamina B12." },
+];
+
+const symData = {
+  'dor-cabeca': { cause: "Estresse, desidratação, tensão muscular ou sinusite.", ori: "Descanse, beba água e evite telas. Analgésico somente se necessário.", warn: true },
+  'febre': { cause: "Infecção viral ou bacteriana, reação inflamatória.", ori: "Hidrate-se bastante. Paracetamol pode ser usado para alívio.", warn: true },
+  'garganta': { cause: "Resfriado, faringite viral ou bacteriana.", ori: "Gargarejo com água morna e sal pode ajudar. Mel com limão alivia.", warn: false },
+  'estomago': { cause: "Gastrite, indigestão ou intolerância alimentar.", ori: "Evite comidas pesadas e gordurosas. Não tome antiácido sem diagnóstico.", warn: true },
+  'tosse': { cause: "Resfriado, gripe, alergia ou irritação na garganta.", ori: "Mel com limão pode aliviar. Evite ambientes com poeira.", warn: false },
+  'corpo': { cause: "Gripe, exercício intenso ou infecção viral.", ori: "Repouso e hidratação. Analgésico somente sob orientação.", warn: false },
+};
+
+const quizQuestions = [
+  { q: "Está com dor ou sintomas há mais de 3 dias?" },
+  { q: "Tem febre acima de 38,5°C?" },
+  { q: "Apresenta dificuldade para respirar?" },
+  { q: "Os sintomas estão piorando com o tempo?" },
+];
+let quizIdx = 0, riskScore = 0;
+
+function goto(screen, title, color) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('screen-' + screen);
+  if (!target) return;
+  target.classList.add('active');
+
+  const header = document.getElementById('app-header');
+  if (screen === 'home') {
+    header.style.background = '#0A5C4A';
+    header.innerHTML = `<div class="header-top"><div class="header-logo">💊</div><h1>MedSafe</h1></div><p>Uso consciente de medicamentos</p>`;
+  } else {
+    header.style.background = color || '#0A5C4A';
+    header.innerHTML = `<button class="back-btn" onclick="goto('home','','')">← Voltar</button><div style="color:#fff;font-size:16px;font-weight:600;">${title}</div>`;
+  }
+
+  if (screen === 'medico') { quizIdx = 0; riskScore = 0; renderQuiz(); }
+  if (screen === 'buscar') {
+    document.getElementById('med-input').value = '';
+    document.getElementById('med-results').innerHTML = '<p style="font-size:13px;color:#888;">Digite ao menos 2 letras para buscar.</p>';
+  }
+  document.querySelectorAll('.bb-btn').forEach(b => b.classList.remove('active'));
+  const bb = document.getElementById('bb-' + screen);
+  if (bb) bb.classList.add('active');
+}
+
+function filterMeds() {
+  const v = document.getElementById('med-input').value.trim().toLowerCase();
+  const el = document.getElementById('med-results');
+  if (v.length < 2) { el.innerHTML = '<p style="font-size:13px;color:#888;">Digite ao menos 2 letras para buscar.</p>'; return; }
+  const found = meds.filter(m => m.name.toLowerCase().includes(v));
+  if (!found.length) { el.innerHTML = '<p style="font-size:13px;color:#888;">Nenhum medicamento encontrado. Tente outro nome.</p>'; return; }
+  el.innerHTML = found.map(m => `
+    <div class="med-card">
+      <div class="med-card-title">${m.name} <span class="pill-badge ${m.badgeClass}">${m.badge}</span></div>
+      <div class="info-row"><span class="info-label">Para que serve</span><span class="info-val">${m.serve}</span></div>
+      <div class="info-row"><span class="info-label">Como usar</span><span class="info-val">${m.uso}</span></div>
+      <div class="info-row"><span class="info-label">Efeitos</span><span class="info-val">${m.efeitos}</span></div>
+      <div class="warning-box">⚠️ ${m.risco}</div>
+    </div>`).join('');
+}
+
+let selected = new Set();
+function toggleSym(el, key) {
+  el.classList.toggle('selected');
+  selected.has(key) ? selected.delete(key) : selected.add(key);
+  document.getElementById('sym-result').classList.remove('visible');
+}
+
+function showSymResult() {
+  const el = document.getElementById('sym-result');
+  if (!selected.size) {
+    el.innerHTML = '<p style="font-size:13px;color:#888;">Selecione ao menos um sintoma acima.</p>';
+    el.className = 'result-card visible';
+    return;
+  }
+  const needsDoc = [...selected].some(k => symData[k]?.warn);
+  let html = '';
+  selected.forEach(k => {
+    const d = symData[k];
+    if (!d) return;
+    html += `<p style="font-size:13px;font-weight:600;margin-bottom:3px;">${k.replace('-', ' ')}</p>`;
+    html += `<p style="font-size:12px;margin-bottom:3px;color:#555;"><strong>Causa possível:</strong> ${d.cause}</p>`;
+    html += `<p style="font-size:12px;margin-bottom:10px;color:#555;"><strong>Orientação:</strong> ${d.ori}</p>`;
+  });
+  if (needsDoc) {
+    html += `<div style="background:#FEF3F3;border:1px solid #F09595;border-radius:8px;padding:8px 10px;font-size:12px;color:#A32D2D;margin-top:4px;">⚠️ Procure um médico se os sintomas persistirem por mais de 48h ou piorarem.</div>`;
+    el.className = 'result-card result-warn visible';
+  } else {
+    el.className = 'result-card result-ok visible';
+  }
+  el.innerHTML = html;
+}
+
+function toggleLearn(card) {
+  card.querySelector('.learn-body').classList.toggle('open');
+}
+
+function renderQuiz() {
+  const qEl = document.getElementById('quiz-q');
+  const rEl = document.getElementById('quiz-result');
+  rEl.className = 'quiz-result';
+  rEl.innerHTML = '';
+  if (quizIdx >= quizQuestions.length) {
+    qEl.innerHTML = '';
+    if (riskScore >= 2) {
+      rEl.className = 'quiz-result go visible';
+      rEl.innerHTML = `<div class="big-icon">🏥</div><div class="r-title">Procure atendimento médico</div><p>Seus sintomas indicam que uma avaliação profissional é necessária. Não tente se autotratar.</p>`;
+    } else {
+      rEl.className = 'quiz-result stay visible';
+      rEl.innerHTML = `<div class="big-icon">🛌</div><div class="r-title">Fique em casa e descanse</div><p>Seus sintomas parecem leves. Hidrate-se, descanse e monitore. Se piorar, consulte um médico.</p>`;
+    }
+    return;
+  }
+  const q = quizQuestions[quizIdx];
+  qEl.innerHTML = `
+    <p style="font-size:12px;color:#888;margin-bottom:6px;">Pergunta ${quizIdx + 1} de ${quizQuestions.length}</p>
+    <p style="font-size:14px;font-weight:600;margin-bottom:14px;color:#111;">${q.q}</p>
+    <button class="quiz-btn yes" onclick="answerQuiz(true)">Sim →</button>
+    <button class="quiz-btn no" onclick="answerQuiz(false)">Não →</button>`;
+}
+
+function answerQuiz(ans) {
+  if (ans) riskScore++;
+  quizIdx++;
+  renderQuiz();
+}
+
+function addReminder() {
+  const name = document.getElementById('r-name').value.trim();
+  const time = document.getElementById('r-time').value;
+  if (!name || !time) return;
+  const list = document.getElementById('reminders-list');
+  const div = document.createElement('div');
+  div.className = 'reminder-item';
+  div.innerHTML = `<span class="ri-icon">💊</span><div><div class="ri-name">${name}</div><div class="ri-time">Todos os dias às ${time}</div></div><span class="ri-badge">Ativo</span>`;
+  list.appendChild(div);
+  document.getElementById('r-name').value = '';
+  document.getElementById('r-time').value = '';
+}
+</script>
+</body>
+</html>
