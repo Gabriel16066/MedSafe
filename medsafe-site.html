@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MedSafe – Uso Consciente de Medicamentos</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --green: #0B6E50;
+  --green-light: #12A273;
+  --green-pale: #E6F5EE;
+  --green-mid: #C5E8D8;
+  --red: #D93D3D;
+  --red-pale: #FDEAEA;
+  --amber: #C87A0F;
+  --amber-pale: #FEF5E4;
+  --blue: #1E6FBF;
+  --blue-pale: #EBF3FC;
+  --gray-100: #F4F6F5;
+  --gray-200: #E8ECEB;
+  --gray-400: #B0BAB6;
+  --gray-600: #6B7876;
+  --gray-800: #2E3734;
+  --white: #FFFFFF;
+  --radius: 14px;
+  --shadow: 0 2px 16px rgba(11,110,80,0.09);
+  --shadow-md: 0 4px 28px rgba(11,110,80,0.14);
+  font-size: 16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:#F2F6F4;color:var(--gray-800);line-height:1.6;}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,110,80,0.97);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:62px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.12);
+}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo{width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.nav-name{font-size:19px;font-weight:800;color:#fff;letter-spacing:-0.3px;}
+.nav-links{display:flex;gap:4px;align-items:center;}
+.nav-links a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;transition:all .15s;}
+.nav-links a:hover{background:rgba(255,255,255,0.15);color:#fff;}
+.nav-emergency{background:#D93D3D;color:#fff!important;border-radius:8px;padding:6px 14px!important;}
+.nav-emergency:hover{background:#b52f2f!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+@media(max-width:760px){
+  .nav-links{display:none;position:absolute;top:62px;left:0;right:0;background:#0B6E50;flex-direction:column;padding:12px 16px;gap:2px;}
+  .nav-links.open{display:flex;}
+  .nav-links a{padding:10px 14px;font-size:14px;}
+  .hamburger{display:flex;}
+}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#0B6E50 0%,#0D8460 60%,#0F9A72 100%);
+  padding:72px 32px 80px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='28'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:99px;padding:5px 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.9);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(32px,5vw,54px);color:#fff;line-height:1.18;margin-bottom:18px;max-width:700px;margin-left:auto;margin-right:auto;}
+.hero h1 em{font-style:italic;color:#A8EDCD;}
+.hero p{font-size:17px;color:rgba(255,255,255,0.82);max-width:540px;margin:0 auto 32px;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:#fff;color:var(--green);padding:13px 28px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:all .18s;border:none;cursor:pointer;font-family:'Nunito',sans-serif;}
+.btn-primary:hover{background:#E6F5EE;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+.btn-secondary{background:rgba(255,255,255,0.12);color:#fff;padding:13px 28px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.35);transition:all .18s;cursor:pointer;font-family:'Nunito',sans-serif;}
+.btn-secondary:hover{background:rgba(255,255,255,0.22);}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:52px;flex-wrap:wrap;}
+.hero-stat{text-align:center;}
+.hero-stat .num{font-size:28px;font-weight:800;color:#fff;}
+.hero-stat .lbl{font-size:12px;color:rgba(255,255,255,0.65);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── SECTIONS ── */
+section{padding:64px 32px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-header{text-align:center;margin-bottom:48px;}
+.section-tag{display:inline-block;background:var(--green-pale);color:var(--green);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:4px 14px;border-radius:99px;margin-bottom:12px;}
+.section-header h2{font-family:'Lora',serif;font-size:clamp(24px,3.5vw,38px);color:var(--gray-800);line-height:1.25;margin-bottom:12px;}
+.section-header p{color:var(--gray-600);font-size:16px;max-width:560px;margin:0 auto;}
+
+/* ── BUSCAR ── */
+#buscar{background:#fff;}
+.search-wrap{max-width:680px;margin:0 auto 36px;position:relative;}
+.search-input{width:100%;padding:16px 56px 16px 20px;border:2px solid var(--gray-200);border-radius:14px;font-size:16px;font-family:'Nunito',sans-serif;outline:none;transition:border .15s;background:#fff;color:var(--gray-800);}
+.search-input:focus{border-color:var(--green);}
+.search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--gray-400);}
+.search-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px;}
+.search-tag{background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-600);font-size:13px;font-weight:600;padding:5px 14px;border-radius:99px;cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;}
+.search-tag:hover{background:var(--green-pale);color:var(--green);border-color:var(--green);}
+#med-results{max-width:860px;margin:0 auto;}
+.med-card{background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow);transition:box-shadow .15s;}
+.med-card:hover{box-shadow:var(--shadow-md);}
+.med-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.med-name{font-size:20px;font-weight:800;color:var(--gray-800);}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.badge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:700;}
+.badge-green{background:var(--green-pale);color:var(--green);}
+.badge-amber{background:var(--amber-pale);color:var(--amber);}
+.badge-red{background:var(--red-pale);color:var(--red);}
+.badge-blue{background:var(--blue-pale);color:var(--blue);}
+.med-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+@media(max-width:600px){.med-grid{grid-template-columns:1fr;}}
+.med-info{background:var(--gray-100);border-radius:10px;padding:12px 14px;}
+.med-info-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-600);margin-bottom:4px;}
+.med-info-val{font-size:14px;color:var(--gray-800);line-height:1.5;}
+.med-warning{background:var(--amber-pale);border:1px solid #EFB84A;border-radius:10px;padding:12px 14px;font-size:13px;color:#7A4800;display:flex;gap:8px;align-items:flex-start;}
+.empty-state{text-align:center;padding:40px;color:var(--gray-600);}
+.empty-state .es-icon{font-size:48px;margin-bottom:12px;}
+
+/* ── SINTOMAS ── */
+#sintomas{background:var(--gray-100);}
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:28px;}
+.sym-card{background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;}
+.sym-card:hover{border-color:var(--green);background:var(--green-pale);}
+.sym-card.active{border-color:var(--green);background:var(--green-pale);box-shadow:0 0 0 3px rgba(11,110,80,0.12);}
+.sym-icon{font-size:32px;margin-bottom:8px;display:block;}
+.sym-label{font-size:14px;font-weight:700;color:var(--gray-800);}
+.sym-sub{font-size:12px;color:var(--gray-600);margin-top:2px;}
+.sym-action{text-align:center;margin-bottom:28px;}
+.btn-green{background:var(--green);color:#fff;padding:13px 32px;border-radius:10px;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;}
+.btn-green:hover{background:#0A5C42;transform:translateY(-1px);}
+#sym-results{max-width:800px;margin:0 auto;}
+.sym-result-card{background:#fff;border-radius:var(--radius);padding:24px;margin-bottom:16px;border:1.5px solid var(--gray-200);box-shadow:var(--shadow);}
+.sym-result-title{font-size:17px;font-weight:800;color:var(--gray-800);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sym-result-row{display:flex;gap:10px;margin-bottom:8px;font-size:14px;}
+.sym-result-lbl{font-weight:700;min-width:100px;color:var(--gray-600);}
+.sym-alert{background:var(--red-pale);border:1px solid #F5A5A5;border-radius:10px;padding:12px 14px;font-size:13px;color:#8B1A1A;margin-top:10px;display:flex;gap:8px;}
+
+/* ── APRENDER ── */
+#aprender{background:#fff;}
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+.learn-card{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;transition:box-shadow .15s;}
+.learn-card:hover{box-shadow:var(--shadow-md);}
+.learn-card-top{padding:20px 20px 0;}
+.learn-card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:12px;}
+.learn-card h3{font-size:17px;font-weight:800;color:var(--gray-800);margin-bottom:8px;}
+.learn-card p{font-size:14px;color:var(--gray-600);line-height:1.6;margin-bottom:16px;}
+.learn-card-footer{background:#fff;border-top:1px solid var(--gray-200);padding:12px 20px;font-size:13px;font-weight:700;color:var(--green);cursor:pointer;transition:background .15s;}
+.learn-card-footer:hover{background:var(--green-pale);}
+.learn-expand{display:none;padding:0 20px 20px;font-size:14px;color:var(--gray-600);line-height:1.7;}
+.learn-expand.open{display:block;}
+.learn-expand ul{margin-left:18px;margin-top:8px;}
+.learn-expand li{margin-bottom:6px;}
+
+/* ── ALERTAS ── */
+#alertas{background:var(--gray-100);}
+.alert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.alert-card{border-radius:var(--radius);padding:24px;border:1.5px solid;}
+.alert-danger{background:var(--red-pale);border-color:#F5A5A5;}
+.alert-warning{background:var(--amber-pale);border-color:#F0C060;}
+.alert-info{background:var(--blue-pale);border-color:#A0C4EE;}
+.alert-card-title{font-size:16px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.alert-danger .alert-card-title{color:#8B1A1A;}
+.alert-warning .alert-card-title{color:#7A4800;}
+.alert-info .alert-card-title{color:#174F8B;}
+.alert-card p{font-size:14px;line-height:1.6;}
+.alert-danger p{color:#791F1F;}
+.alert-warning p{color:#6B3A00;}
+.alert-info p{color:#1A3D6B;}
+.alert-card-list{margin-top:10px;margin-left:18px;font-size:14px;}
+.alert-danger .alert-card-list{color:#791F1F;}
+.alert-warning .alert-card-list{color:#6B3A00;}
+.alert-card-list li{margin-bottom:5px;}
+
+/* ── QUIZ ── */
+#medico{background:#fff;}
+.quiz-wrap{max-width:660px;margin:0 auto;}
+.quiz-progress{display:flex;gap:6px;margin-bottom:28px;}
+.quiz-step{flex:1;height:5px;background:var(--gray-200);border-radius:99px;transition:background .3s;}
+.quiz-step.done{background:var(--green);}
+.quiz-step.active{background:var(--green-light);}
+.quiz-question{font-size:22px;font-weight:800;color:var(--gray-800);margin-bottom:8px;line-height:1.3;}
+.quiz-sub{font-size:15px;color:var(--gray-600);margin-bottom:28px;}
+.quiz-options{display:flex;flex-direction:column;gap:12px;}
+.quiz-opt{background:var(--gray-100);border:2px solid var(--gray-200);border-radius:12px;padding:16px 20px;cursor:pointer;font-size:15px;font-weight:600;color:var(--gray-800);transition:all .15s;text-align:left;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:12px;}
+.quiz-opt:hover{border-color:var(--green);background:var(--green-pale);}
+.quiz-opt-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.quiz-result{text-align:center;padding:32px;border-radius:var(--radius);}
+.quiz-result.go{background:var(--red-pale);border:2px solid #F5A5A5;}
+.quiz-result.stay{background:var(--green-pale);border:2px solid var(--green-mid);}
+.quiz-result .r-icon{font-size:56px;margin-bottom:14px;}
+.quiz-result .r-title{font-family:'Lora',serif;font-size:26px;margin-bottom:10px;}
+.quiz-result.go .r-title{color:#8B1A1A;}
+.quiz-result.stay .r-title{color:var(--green);}
+.quiz-result p{font-size:15px;margin-bottom:16px;}
+.quiz-result.go p{color:#791F1F;}
+.quiz-result.stay p{color:#0A5C42;}
+.quiz-restart{background:var(--green);color:#fff;padding:11px 26px;border-radius:9px;font-weight:700;font-size:14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;}
+
+/* ── LEMBRETE ── */
+#lembrete{background:var(--gray-100);}
+.lembrete-wrap{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto;}
+@media(max-width:700px){.lembrete-wrap{grid-template-columns:1fr;}}
+.lembrete-form{background:#fff;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);}
+.lembrete-form h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--gray-800);}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:13px;font-weight:700;color:var(--gray-600);margin-bottom:5px;display:block;}
+.form-input{width:100%;padding:11px 14px;border:1.5px solid var(--gray-200);border-radius:9px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--gray-800);background:#fff;outline:none;transition:border .15s;}
+.form-input:focus{border-color:var(--green);}
+select.form-input{cursor:pointer;}
+.btn-add{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;margin-top:4px;}
+.btn-add:hover{background:#0A5C42;}
+.reminders-panel{background:#fff;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);}
+.reminders-panel h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--gray-800);}
+#reminders-list{display:flex;flex-direction:column;gap:10px;}
+.reminder-item{background:var(--gray-100);border:1px solid var(--gray-200);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.ri-icon{font-size:24px;flex-shrink:0;}
+.ri-info{flex:1;}
+.ri-name{font-size:14px;font-weight:800;color:var(--gray-800);}
+.ri-time{font-size:12px;color:var(--gray-600);}
+.ri-badge{background:var(--green-pale);color:var(--green);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;}
+.ri-del{background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:16px;transition:color .15s;flex-shrink:0;}
+.ri-del:hover{color:var(--red);}
+
+/* ── EMERGÊNCIA ── */
+#emergencia{background:linear-gradient(135deg,#8B1A1A 0%,#B02828 50%,#C83232 100%);padding:64px 32px;}
+#emergencia .section-header h2{color:#fff;}
+#emergencia .section-header p{color:rgba(255,255,255,0.75);}
+#emergencia .section-tag{background:rgba(255,255,255,0.15);color:#fff;}
+.samu-banner{background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.25);border-radius:var(--radius);padding:28px;display:flex;align-items:center;gap:24px;max-width:520px;margin:0 auto 40px;cursor:pointer;transition:background .15s;}
+.samu-banner:hover{background:rgba(255,255,255,0.18);}
+.samu-num-wrap{text-align:center;}
+.samu-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.7);}
+.samu-num{font-size:56px;font-weight:800;color:#fff;line-height:1;}
+.samu-info .samu-name{font-size:20px;font-weight:800;color:#fff;}
+.samu-info p{font-size:14px;color:rgba(255,255,255,0.75);margin-top:4px;}
+.emg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;max-width:900px;margin:0 auto;}
+.emg-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:var(--radius);padding:20px;}
+.emg-card-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.emg-card p{font-size:13px;color:rgba(255,255,255,0.8);line-height:1.6;}
+.emg-card strong{color:#fff;}
+.other-nums{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+.other-num{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 20px;text-align:center;cursor:pointer;transition:background .15s;}
+.other-num:hover{background:rgba(255,255,255,0.18);}
+.other-num .on-num{font-size:22px;font-weight:800;color:#fff;}
+.other-num .on-lbl{font-size:11px;color:rgba(255,255,255,0.65);font-weight:600;}
+
+/* ── FOOTER ── */
+footer{background:var(--gray-800);color:rgba(255,255,255,0.6);text-align:center;padding:32px;font-size:14px;}
+footer strong{color:rgba(255,255,255,0.9);}
+footer a{color:rgba(255,255,255,0.6);text-decoration:none;}
+footer .footer-disclaimer{background:rgba(255,255,255,0.06);border-radius:8px;padding:12px 20px;max-width:600px;margin:12px auto 0;font-size:12px;line-height:1.6;}
+
+/* ── SCROLL ANIMATIONS ── */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease;}
+.fade-in.visible{opacity:1;transform:none;}
+
+/* ── MISC ── */
+.hidden{display:none;}
+.divider{width:60px;height:3px;background:var(--green);border-radius:99px;margin:16px auto 0;}
+@media(max-width:540px){
+  nav{padding:0 16px;}
+  section{padding:48px 16px;}
+  .hero{padding:48px 16px 56px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">💊</div>
+    <span class="nav-name">MedSafe</span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#buscar">Buscar</a>
+    <a href="#sintomas">Sintomas</a>
+    <a href="#aprender">Aprender</a>
+    <a href="#alertas">Alertas</a>
+    <a href="#medico">Sou de risco?</a>
+    <a href="#lembrete">Lembrete</a>
+    <a href="#emergencia" class="nav-emergency">🚨 Emergência</a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🛡️ Saúde com responsabilidade</div>
+  <h1>Use medicamentos com <em>segurança</em> e consciência</h1>
+  <p>O MedSafe ajuda qualquer pessoa a entender remédios, reconhecer riscos e tomar decisões mais saudáveis — sem automedicação.</p>
+  <div class="hero-btns">
+    <a href="#buscar" class="btn-primary">🔍 Buscar medicamento</a>
+    <a href="#sintomas" class="btn-secondary">🤒 Verificar sintomas</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">30+</div><div class="lbl">Medicamentos</div></div>
+    <div class="hero-stat"><div class="num">8</div><div class="lbl">Seções informativas</div></div>
+    <div class="hero-stat"><div class="num">100%</div><div class="lbl">Gratuito</div></div>
+  </div>
+</div>
+
+<!-- ───── BUSCAR ───── -->
+<section id="buscar">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">🔍 Medicamentos</span>
+      <h2>Buscar medicamento</h2>
+      <div class="divider"></div>
+      <p>Digite o nome do remédio para ver para que serve, como usar corretamente, efeitos colaterais e riscos.</p>
+    </div>
+    <div class="search-wrap fade-in">
+      <input class="search-input" type="text" id="med-input" placeholder="Ex: Ibuprofeno, Paracetamol, Amoxicilina..." oninput="filterMeds()" />
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="search-tags fade-in">
+      <button class="search-tag" onclick="quickSearch('Ibuprofeno')">Ibuprofeno</button>
+      <button class="search-tag" onclick="quickSearch('Paracetamol')">Paracetamol</button>
+      <button class="search-tag" onclick="quickSearch('Amoxicilina')">Amoxicilina</button>
+      <button class="search-tag" onclick="quickSearch('Dipirona')">Dipirona</button>
+      <button class="search-tag" onclick="quickSearch('Omeprazol')">Omeprazol</button>
+      <button class="search-tag" onclick="quickSearch('Loratadina')">Loratadina</button>
+      <button class="search-tag" onclick="quickSearch('Azitromicina')">Azitromicina</button>
+      <button class="search-tag" onclick="quickSearch('Metformina')">Metformina</button>
+      <button class="search-tag" onclick="quickSearch('Atenolol')">Atenolol</button>
+    </div>
+    <div id="med-results">
+      <div class="empty-state">
+        <div class="es-icon">💊</div>
+        <p>Digite o nome de um medicamento para ver as informações.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── SINTOMAS ───── -->
+<section id="sintomas">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">🤒 Sintomas</span>
+      <h2>O que você está sentindo?</h2>
+      <div class="divider"></div>
+      <p>Selecione um ou mais sintomas para receber orientações sobre possíveis causas e quando procurar um médico.</p>
+    </div>
+    <div class="sym-grid fade-in">
+      <div class="sym-card" onclick="toggleSym(this,'dor-cabeca')">
+        <span class="sym-icon">🤕</span>
+        <div class="sym-label">Dor de cabeça</div>
+        <div class="sym-sub">Cefaleia, enxaqueca</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'febre')">
+        <span class="sym-icon">🌡️</span>
+        <div class="sym-label">Febre</div>
+        <div class="sym-sub">Temperatura elevada</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'garganta')">
+        <span class="sym-icon">😮</span>
+        <div class="sym-label">Dor de garganta</div>
+        <div class="sym-sub">Faringite, amigdalite</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'estomago')">
+        <span class="sym-icon">🤢</span>
+        <div class="sym-label">Dor no estômago</div>
+        <div class="sym-sub">Gastrite, indigestão</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'tosse')">
+        <span class="sym-icon">😷</span>
+        <div class="sym-label">Tosse</div>
+        <div class="sym-sub">Seca ou com catarro</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'corpo')">
+        <span class="sym-icon">💪</span>
+        <div class="sym-label">Dores no corpo</div>
+        <div class="sym-sub">Muscular, articular</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'nausea')">
+        <span class="sym-icon">🥴</span>
+        <div class="sym-label">Náusea / Vômito</div>
+        <div class="sym-sub">Enjoo, mal-estar</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'alergia')">
+        <span class="sym-icon">🌿</span>
+        <div class="sym-label">Alergia</div>
+        <div class="sym-sub">Erupção, coceira, coriza</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'insonia')">
+        <span class="sym-icon">😴</span>
+        <div class="sym-label">Insônia</div>
+        <div class="sym-sub">Dificuldade para dormir</div>
+      </div>
+      <div class="sym-card" onclick="toggleSym(this,'respiracao')">
+        <span class="sym-icon">🫁</span>
+        <div class="sym-label">Dificuldade respiratória</div>
+        <div class="sym-sub">Falta de ar, chiado</div>
+      </div>
+    </div>
+    <div class="sym-action fade-in">
+      <button class="btn-green" onclick="showSymResult()">Ver orientação para meus sintomas →</button>
+    </div>
+    <div id="sym-results"></div>
+  </div>
+</section>
+
+<!-- ───── APRENDER ───── -->
+<section id="aprender">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">🧠 Educação</span>
+      <h2>Aprenda a usar medicamentos corretamente</h2>
+      <div class="divider"></div>
+      <p>Informação clara e simples para toda a família — de jovens a idosos.</p>
+    </div>
+    <div class="learn-grid fade-in">
+      <div class="learn-card">
+        <div class="learn-card-top">
+          <div class="learn-card-icon" style="background:#FEF5E4;">📖</div>
+          <h3>O que é automedicação?</h3>
+          <p>Entenda o que significa se automedicar e por que é mais comum do que parece.</p>
+        </div>
+        <div class="learn-expand" id="lc1">
+          Automedicação é quando uma pessoa toma remédios por conta própria, sem consultar um médico ou farmacêutico. É um hábito muito comum no Brasil, especialmente com analgésicos e antibióticos. Embora pareça prático, pode:
+          <ul>
+            <li>Mascarar doenças mais graves que precisam de diagnóstico</li>
+            <li>Causar interações perigosas com outros medicamentos</li>
+            <li>Gerar resistência bacteriana no caso de antibióticos</li>
+            <li>Atrasar o tratamento correto</li>
+          </ul>
+        </div>
+        <div class="learn-card-footer" onclick="toggleLearn('lc1',this)">▼ Saiba mais</div>
+      </div>
+
+      <div class="learn-card">
+        <div class="learn-card-top">
+          <div class="learn-card-icon" style="background:#FDEAEA;">⛔</div>
+          <h3>Por que a automedicação é perigosa?</h3>
+          <p>Os riscos reais de tomar remédios sem orientação médica profissional.</p>
+        </div>
+        <div class="learn-expand" id="lc2">
+          Cada organismo reage de forma diferente a medicamentos. Os principais riscos incluem:
+          <ul>
+            <li><strong>Reações alérgicas</strong> que podem ser graves ou fatais</li>
+            <li><strong>Danos ao fígado e rins</strong>, especialmente com uso prolongado</li>
+            <li><strong>Interações medicamentosas</strong>: remédios combinados podem potencializar efeitos indesejados</li>
+            <li><strong>Intoxicações</strong> por superdosagem acidental</li>
+            <li><strong>Resistência antimicrobiana</strong> com uso inadequado de antibióticos</li>
+          </ul>
+        </div>
+        <div class="learn-card-footer" onclick="toggleLearn('lc2',this)">▼ Saiba mais</div>
+      </div>
+
+      <div class="learn-card">
+        <div class="learn-card-top">
+          <div class="learn-card-icon" style="background:#E6F5EE;">✅</div>
+          <h3>Como usar medicamentos corretamente</h3>
+          <p>Boas práticas para garantir que o tratamento funcione com segurança.</p>
+        </div>
+        <div class="learn-expand" id="lc3">
+          <ul>
+            <li>Sempre siga a prescrição médica ou as orientações do farmacêutico</li>
+            <li>Respeite horários e dosagem indicada na bula ou receita</li>
+            <li>Não interrompa o tratamento antes do prazo, mesmo sentindo melhora</li>
+            <li>Guarde remédios em local fresco, seco e longe de crianças</li>
+            <li>Verifique a validade antes de tomar qualquer medicamento</li>
+            <li>Informe o médico sobre todos os remédios que está tomando</li>
+            <li>Descarte remédios vencidos em farmácias credenciadas</li>
+          </ul>
+        </div>
+        <div class="learn-card-footer" onclick="toggleLearn('lc3',this)">▼ Saiba mais</div>
+      </div>
+
+      <div class="learn-card">
+        <div class="learn-card-top">
+          <div class="learn-card-icon" style="background:#EBF3FC;">💊</div>
+          <h3>Antibióticos: atenção especial</h3>
+          <p>O remédio mais usado sem receita — e um dos mais perigosos quando mal usado.</p>
+        </div>
+        <div class="learn-expand" id="lc4">
+          Antibióticos são medicamentos que combatem infecções <strong>bacterianas</strong>. Pontos essenciais:
+          <ul>
+            <li>Não funcionam em gripes, resfriados e doenças virais</li>
+            <li>Exigem receita médica obrigatoriamente</li>
+            <li>O tratamento incompleto cria bactérias resistentes</li>
+            <li>A resistência antimicrobiana é uma crise global de saúde</li>
+            <li>Nunca use antibióticos "sobrados" de tratamentos anteriores</li>
+          </ul>
+        </div>
+        <div class="learn-card-footer" onclick="toggleLearn('lc4',this)">▼ Saiba mais</div>
+      </div>
+
+      <div class="learn-card">
+        <div class="learn-card-top">
+          <div class="learn-card-icon" style="background:#F5EAF8;">👴</div>
+          <h3>Idosos e medicamentos</h3>
+          <p>Por que pessoas mais velhas precisam de cuidados adicionais com remédios.</p>
+        </div>
+        <div class="learn-expand" id="lc5">
+          Com o envelhecimento, o corpo metaboliza medicamentos de forma diferente:
+          <ul>
+            <li>O fígado e os rins ficam menos eficientes na eliminação de substâncias</li>
+            <li>Idosos frequentemente usam vários medicamentos ao mesmo tempo (polifarmácia)</li>
+            <li>O risco de interações e efeitos colaterais é muito maior</li>
+            <li>Alguns remédios podem causar quedas, confusão mental e outros riscos</li>
+            <li>É essencial ter um médico acompanhando todos os medicamentos em uso</li>
+          </ul>
+        </div>
+        <div class="learn-card-footer" onclick="toggleLearn('lc5',this)">▼ Saiba mais</div>
+      </div>
+
+      <div class="learn-card">
+        <div class="learn-card-top">
+          <div class="learn-card-icon" style="background:#FFF0E8;">🤰</div>
+          <h3>Gravidez e amamentação</h3>
+          <p>Remédios que parecem inofensivos podem ser perigosos durante a gravidez.</p>
+        </div>
+        <div class="learn-expand" id="lc6">
+          Durante a gravidez e amamentação, a automedicação oferece riscos especiais:
+          <ul>
+            <li>Muitos remédios atravessam a placenta e podem afetar o bebê</li>
+            <li>Ibuprofeno e aspirina são contraindicados em certas fases da gestação</li>
+            <li>Alguns medicamentos passam pelo leite materno</li>
+            <li>Mesmo suplementos "naturais" devem ser avaliados pelo médico</li>
+            <li>Sempre informe ao médico que está grávida ou amamentando</li>
+          </ul>
+        </div>
+        <div class="learn-card-footer" onclick="toggleLearn('lc6',this)">▼ Saiba mais</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ALERTAS ───── -->
+<section id="alertas">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">⚠️ Riscos</span>
+      <h2>Alertas de risco importantes</h2>
+      <div class="divider"></div>
+      <p>Situações que colocam vidas em risco e que qualquer pessoa precisa conhecer.</p>
+    </div>
+    <div class="alert-grid fade-in">
+      <div class="alert-card alert-danger">
+        <div class="alert-card-title">⛔ Paracetamol em excesso</div>
+        <p>Tomar mais de <strong>4g por dia</strong> pode causar insuficiência hepática aguda — mesmo em pessoas saudáveis. É a principal causa de falência hepática por medicamento no Brasil.</p>
+        <ul class="alert-card-list">
+          <li>Dose adulto: máximo 4 comprimidos de 500mg/dia</li>
+          <li>Não associe com álcool — aumenta risco de dano ao fígado</li>
+          <li>Muitos remédios "para gripe" já contêm paracetamol</li>
+        </ul>
+      </div>
+
+      <div class="alert-card alert-danger">
+        <div class="alert-card-title">⛔ Misturar medicamentos sem orientação</div>
+        <p>Combinações perigosas são mais comuns do que se imagina:</p>
+        <ul class="alert-card-list">
+          <li><strong>Ibuprofeno + Aspirina:</strong> aumenta risco de sangramento</li>
+          <li><strong>Antidepressivos + certos analgésicos:</strong> síndrome serotoninérgica</li>
+          <li><strong>Anticoagulantes + AINEs:</strong> hemorragia grave</li>
+          <li><strong>Antibióticos + anticonceptivos:</strong> pode reduzir eficácia</li>
+        </ul>
+      </div>
+
+      <div class="alert-card alert-warning">
+        <div class="alert-card-title">⚠️ Uso sem receita médica</div>
+        <p>Antibióticos, psicotrópicos e vários outros remédios exigem receita por lei. Comprar ou usar sem prescrição é ilegal, perigoso e pode piorar seu estado de saúde.</p>
+        <ul class="alert-card-list">
+          <li>Nunca reutilize receitas vencidas</li>
+          <li>Não tome remédios de outras pessoas</li>
+          <li>A ANVISA fiscaliza venda sem receita</li>
+        </ul>
+      </div>
+
+      <div class="alert-card alert-warning">
+        <div class="alert-card-title">⚠️ Álcool + medicamentos</div>
+        <p>A interação entre álcool e remédios pode ser fatal. Combinações perigosas:</p>
+        <ul class="alert-card-list">
+          <li><strong>Álcool + paracetamol:</strong> falência hepática</li>
+          <li><strong>Álcool + antibióticos:</strong> reação severa (metronidazol)</li>
+          <li><strong>Álcool + benzodiazepínicos:</strong> depressão respiratória</li>
+          <li><strong>Álcool + anti-hipertensivos:</strong> queda grave de pressão</li>
+        </ul>
+      </div>
+
+      <div class="alert-card alert-warning">
+        <div class="alert-card-title">⚠️ Crianças e medicamentos</div>
+        <p>Crianças não são adultos em miniatura — doses e medicamentos são completamente diferentes:</p>
+        <ul class="alert-card-list">
+          <li>Nunca use dosagem de adulto para crianças</li>
+          <li>Aspirina é contraindicada em menores de 12 anos (síndrome de Reye)</li>
+          <li>Fique atento às embalagens — separe dos alimentos</li>
+          <li>Sempre consulte pediatra antes de medicar</li>
+        </ul>
+      </div>
+
+      <div class="alert-card alert-info">
+        <div class="alert-card-title">ℹ️ Remédios naturais também têm risco</div>
+        <p>Fitoterápicos, chás medicinais e suplementos não são inofensivos:</p>
+        <ul class="alert-card-list">
+          <li>Erva-de-São-João pode interferir com anticoagulantes e anticoncepcionais</li>
+          <li>Ginkgo biloba aumenta risco de sangramento</li>
+          <li>Suplementos de vitaminas em excesso causam intoxicação</li>
+          <li>Informe sempre seu médico sobre uso de fitoterápicos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── QUIZ ───── -->
+<section id="medico">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">👨‍⚕️ Avaliação</span>
+      <h2>Preciso ir ao médico?</h2>
+      <div class="divider"></div>
+      <p>Responda algumas perguntas rápidas e receba uma orientação personalizada sobre seus sintomas.</p>
+    </div>
+    <div class="quiz-wrap fade-in">
+      <div class="quiz-progress" id="quiz-progress"></div>
+      <div id="quiz-container"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── LEMBRETE ───── -->
+<section id="lembrete">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">⏰ Lembrete</span>
+      <h2>Lembrete de medicamentos</h2>
+      <div class="divider"></div>
+      <p>Organize os horários dos seus remédios e nunca esqueça uma dose.</p>
+    </div>
+    <div class="lembrete-wrap fade-in">
+      <div class="lembrete-form">
+        <h3>➕ Adicionar lembrete</h3>
+        <div class="form-group">
+          <label class="form-label">Nome do medicamento</label>
+          <input class="form-input" type="text" id="r-name" placeholder="Ex: Amoxicilina 500mg" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Horário</label>
+          <input class="form-input" type="time" id="r-time" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Frequência</label>
+          <select class="form-input" id="r-freq">
+            <option value="Todos os dias">Todos os dias</option>
+            <option value="A cada 6 horas">A cada 6 horas</option>
+            <option value="A cada 8 horas">A cada 8 horas</option>
+            <option value="A cada 12 horas">A cada 12 horas</option>
+            <option value="Uma vez por semana">Uma vez por semana</option>
+            <option value="Quando necessário">Quando necessário</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Observação (opcional)</label>
+          <input class="form-input" type="text" id="r-obs" placeholder="Ex: Tomar com alimento" />
+        </div>
+        <button class="btn-add" onclick="addReminder()">+ Adicionar lembrete</button>
+        <p id="r-msg" style="font-size:13px;color:var(--green);margin-top:8px;display:none;">✅ Lembrete adicionado!</p>
+      </div>
+      <div class="reminders-panel">
+        <h3>📋 Meus lembretes</h3>
+        <div id="reminders-list">
+          <div class="reminder-item">
+            <span class="ri-icon">💊</span>
+            <div class="ri-info">
+              <div class="ri-name">Vitamina D 1000 UI</div>
+              <div class="ri-time">⏰ 08:00 · Todos os dias</div>
+            </div>
+            <span class="ri-badge">Ativo</span>
+            <button class="ri-del" onclick="this.closest('.reminder-item').remove()">✕</button>
+          </div>
+          <div class="reminder-item">
+            <span class="ri-icon">🩺</span>
+            <div class="ri-info">
+              <div class="ri-name">Metformina 850mg</div>
+              <div class="ri-time">⏰ 13:00 · A cada 12 horas · Com alimento</div>
+            </div>
+            <span class="ri-badge">Ativo</span>
+            <button class="ri-del" onclick="this.closest('.reminder-item').remove()">✕</button>
+          </div>
+        </div>
+        <p id="empty-reminder" style="font-size:14px;color:var(--gray-400);text-align:center;padding:20px 0;display:none;">Nenhum lembrete ainda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── EMERGÊNCIA ───── -->
+<section id="emergencia">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-tag">🚨 Emergência</span>
+      <h2>Emergência médica</h2>
+      <p>Em caso de intoxicação ou reação grave — aja imediatamente.</p>
+    </div>
+    <div class="samu-banner fade-in" onclick="alert('Ligue 192 — SAMU')">
+      <div class="samu-num-wrap">
+        <div class="samu-lbl">Ligue agora</div>
+        <div class="samu-num">192</div>
+      </div>
+      <div class="samu-info">
+        <div class="samu-name">SAMU</div>
+        <p>Serviço de Atendimento Móvel de Urgência<br>Disponível 24 horas — gratuito</p>
+      </div>
+    </div>
+    <div class="emg-grid fade-in">
+      <div class="emg-card">
+        <div class="emg-card-title">🧪 Intoxicação por medicamento</div>
+        <p><strong>Sinais:</strong> vômito, confusão mental, respiração lenta, lábios roxos, convulsão.<br/><br/>
+        <strong>O que fazer:</strong> ligue 192 imediatamente. Não induza vômito sem orientação. Guarde a embalagem do remédio para mostrar ao socorrista. Mantenha a pessoa acordada.</p>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-title">🔴 Reação alérgica grave (anafilaxia)</div>
+        <p><strong>Sinais:</strong> inchaço no rosto/garganta, dificuldade respiratória, erupção generalizada, queda de pressão, desmaio.<br/><br/>
+        <strong>O que fazer:</strong> ligue 192. Mantenha deitada com pernas elevadas. Não dê nada pela boca. Se disponível, aplique adrenalina (EpiPen).</p>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-title">💊 Superdosagem / Overdose</div>
+        <p><strong>Sinais:</strong> sonolência extrema, batimentos irregulares, pupilas dilatadas ou contraídas, pele fria e úmida.<br/><br/>
+        <strong>O que fazer:</strong> ligue 192, não deixe a pessoa sozinha, registre quais medicamentos foram tomados e em que quantidade.</p>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-title">🫀 Dor no peito intensa</div>
+        <p><strong>Sinais:</strong> dor forte no peito irradiando para o braço ou mandíbula, suor frio, falta de ar, sensação de morte iminente.<br/><br/>
+        <strong>O que fazer:</strong> ligue 192 imediatamente. Sente a pessoa em posição confortável. Afrouxe roupas apertadas. Não dê medicamentos sem orientação.</p>
+      </div>
+    </div>
+    <div class="other-nums fade-in">
+      <div class="other-num">
+        <div class="on-num">193</div>
+        <div class="on-lbl">Bombeiros</div>
+      </div>
+      <div class="other-num">
+        <div class="on-num">188</div>
+        <div class="on-lbl">CVV – Apoio emocional</div>
+      </div>
+      <div class="other-num">
+        <div class="on-num">136</div>
+        <div class="on-lbl">Disque Saúde</div>
+      </div>
+      <div class="other-num">
+        <div class="on-num">0800 722 6001</div>
+        <div class="on-lbl">ANVISA – Denúncias</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>MedSafe</strong> – Uso Consciente de Medicamentos<br/>
+  Criado para combater a automedicação e promover saúde com responsabilidade.<br/>
+  <div class="footer-disclaimer">
+    ⚠️ As informações do MedSafe têm caráter <strong>educativo e informativo</strong>. Não substituem consulta médica, diagnóstico ou prescrição profissional. Em caso de dúvida, consulte sempre um médico ou farmacêutico.
+  </div>
+</footer>
+
+<script>
+/* ───── MEDICAMENTOS ───── */
+const meds = [
+  { name:"Ibuprofeno", type:"Anti-inflamatório", badge:"badge-green", receita:false,
+    serve:"Dor leve a moderada, febre e inflamações como dores musculares, artrite, cólica menstrual e dor de dente.",
+    uso:"Adultos: 200–400mg a cada 6–8 horas, preferencialmente durante ou após as refeições. Máximo: 1200mg/dia sem receita, 2400mg/dia com.",
+    efeitos:"Irritação gástrica, náusea, dor abdominal. Com uso prolongado: úlcera, problemas renais e pressão arterial elevada.",
+    risco:"Contraindicado em pessoas com úlcera, insuficiência renal, gestantes (especialmente no 3º trimestre). Evite combinar com aspirina ou outros AINEs.",
+    cat:"Analgésico • Anti-inflamatório" },
+  { name:"Paracetamol", type:"Analgésico / Antipirético", badge:"badge-green", receita:false,
+    serve:"Alívio de dores leves a moderadas (cabeça, muscular, dente) e controle de febre.",
+    uso:"Adultos: 500–1000mg a cada 4–6 horas. Dose máxima: 4g (4000mg) por dia.",
+    efeitos:"Bem tolerado nas doses corretas. Overdose causa lesão hepática grave — pode ser fatal.",
+    risco:"Não ultrapasse a dose máxima diária. Evite álcool. Atenção: muitos remédios para gripe já contêm paracetamol.",
+    cat:"Analgésico • Antipirético" },
+  { name:"Amoxicilina", type:"Antibiótico", badge:"badge-amber", receita:true,
+    serve:"Infecções bacterianas: faringite estreptocócica, otite, infecção urinária, pneumonia leve, infecções de pele.",
+    uso:"Adultos: 500mg a cada 8h ou 875mg a cada 12h por 7–10 dias. Sempre conforme prescrição médica.",
+    efeitos:"Diarreia, náusea, erupção cutânea, reação alérgica (pode ser grave em alérgicos à penicilina).",
+    risco:"Exige receita. Não interrompa antes do prazo. Não funciona contra vírus. Informe se for alérgico à penicilina.",
+    cat:"Antibiótico • Requer receita" },
+  { name:"Dipirona", type:"Analgésico / Antipirético", badge:"badge-green", receita:false,
+    serve:"Dor de intensidade moderada a forte (incluindo cólica) e febre resistente ao paracetamol.",
+    uso:"Adultos: 500–1000mg por via oral a cada 6–8 horas. Máximo 4 doses por dia.",
+    efeitos:"Queda de pressão (especialmente IV), reações alérgicas, raramente agranulocitose (queda de glóbulos brancos).",
+    risco:"Proibida em alguns países (EUA, Reino Unido). Não use com anticoagulantes. Consulte médico se febre persistir mais de 3 dias.",
+    cat:"Analgésico • Antipirético" },
+  { name:"Omeprazol", type:"Inibidor da bomba de prótons", badge:"badge-blue", receita:false,
+    serve:"Gastrite, refluxo gastroesofágico (queimação), úlcera gástrica e duodenal, proteção gástrica durante uso de AINEs.",
+    uso:"20mg em jejum, 30 minutos antes do café da manhã. Para casos mais graves: 40mg/dia conforme indicação.",
+    efeitos:"Dor de cabeça, diarreia, náusea. Uso prolongado: déficit de vitamina B12, magnésio e cálcio, maior risco de infecções intestinais.",
+    risco:"Não deve ser usado indefinidamente sem indicação médica. Pode mascarar sintomas de câncer gástrico. Informe uso ao médico.",
+    cat:"Antiácido • Protetor gástrico" },
+  { name:"Loratadina", type:"Anti-histamínico", badge:"badge-green", receita:false,
+    serve:"Alergias: rinite alérgica, urticária, coceira nos olhos e na pele, reações alérgicas leves.",
+    uso:"Adultos: 10mg uma vez ao dia, com ou sem alimento. Crianças: conforme peso e orientação pediátrica.",
+    efeitos:"Sonolência leve (menos que outros anti-histamínicos), boca seca, dor de cabeça.",
+    risco:"Não associar com álcool. Pode mascarar reações alérgicas graves. Gestantes devem consultar médico.",
+    cat:"Anti-histamínico • Antialérgico" },
+  { name:"Azitromicina", type:"Antibiótico Macrolídeo", badge:"badge-amber", receita:true,
+    serve:"Infecções respiratórias (pneumonia, bronquite bacteriana), infecções de pele, doenças sexualmente transmissíveis (clamídia).",
+    uso:"500mg uma vez ao dia por 3 dias, ou 500mg no 1º dia e 250mg do 2º ao 5º dia — conforme prescrição.",
+    efeitos:"Náusea, diarreia, dor abdominal. Raramente: alterações cardíacas (intervalo QT).",
+    risco:"Exige receita. Interações com anticoagulantes e outros medicamentos. Não use se tiver doença cardíaca sem avaliação médica.",
+    cat:"Antibiótico • Requer receita" },
+  { name:"Metformina", type:"Antidiabético", badge:"badge-amber", receita:true,
+    serve:"Tratamento do diabetes tipo 2. Reduz a produção de glicose no fígado e melhora a sensibilidade à insulina.",
+    uso:"Início: 500mg 2x/dia com refeições. Dose de manutenção: conforme avaliação médica (máx. 2550mg/dia).",
+    efeitos:"Distúrbios gastrointestinais (náusea, diarreia, dor abdominal), especialmente no início. Raramente: acidose lática.",
+    risco:"Exige receita e acompanhamento médico regular. Suspender antes de cirurgias e exames com contraste. Monitorar função renal.",
+    cat:"Antidiabético • Requer receita" },
+  { name:"Atenolol", type:"Beta-bloqueador", badge:"badge-amber", receita:true,
+    serve:"Hipertensão arterial, angina pectoris, arritmias cardíacas e prevenção de infarto do miocárdio.",
+    uso:"25–100mg uma vez ao dia. Dose ajustada pelo médico conforme resposta individual.",
+    efeitos:"Bradicardia (frequência cardíaca lenta), fadiga, extremidades frias, tontura, impotência sexual.",
+    risco:"Nunca interrompa abruptamente — pode causar angina rebote. Cuidado em asmáticos (pode piorar broncoespasmo). Exige receita.",
+    cat:"Cardiovascular • Beta-bloqueador • Requer receita" },
+  { name:"Cetirizina", type:"Anti-histamínico", badge:"badge-green", receita:false,
+    serve:"Rinite alérgica, urticária crônica, coceira. Mais potente que a loratadina para alergias intensas.",
+    uso:"Adultos: 10mg uma vez ao dia, de preferência à noite (pode causar sonolência).",
+    efeitos:"Sonolência (mais comum que com loratadina), boca seca, dor de cabeça.",
+    risco:"Evite dirigir ou operar máquinas. Não combinar com álcool. Reduzir dose em insuficiência renal.",
+    cat:"Anti-histamínico • Antialérgico" },
+  { name:"Dexametasona", type:"Corticosteroide", badge:"badge-red", receita:true,
+    serve:"Processos inflamatórios e alérgicos graves, asma, doenças autoimunes, edema cerebral e outras condições que exigem supressão imunológica.",
+    uso:"Varia muito conforme a condição. Sempre sob prescrição e supervisão médica rigorosa.",
+    efeitos:"Com uso prolongado: diabetes, osteoporose, imunossupressão, aumento de peso, hipertensão, úlcera.",
+    risco:"Nunca interrompa abruptamente após uso prolongado (risco de crise adrenal). Automedicação com corticoide é extremamente perigosa.",
+    cat:"Corticosteroide • Requer receita obrigatória" },
+  { name:"Fluconazol", type:"Antifúngico", badge:"badge-amber", receita:true,
+    serve:"Candidíase vaginal, oral e esofágica; meningite fúngica; prevenção de fungos em imunossuprimidos.",
+    uso:"Para candidíase vaginal: dose única de 150mg. Outras indicações: conforme prescrição médica.",
+    efeitos:"Náusea, dor abdominal, cefaleia, alterações hepáticas com uso prolongado.",
+    risco:"Interage com vários medicamentos (anticoagulantes, estatinas). Exige receita. Não usar na gravidez sem indicação médica.",
+    cat:"Antifúngico • Requer receita" },
+];
+
+let medInput = document.getElementById('med-input');
+
+function quickSearch(name) {
+  medInput.value = name;
+  filterMeds();
+  document.getElementById('buscar').scrollIntoView({behavior:'smooth'});
+}
+
+function filterMeds() {
+  const v = medInput.value.trim().toLowerCase();
+  const el = document.getElementById('med-results');
+  if (v.length < 2) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">💊</div><p>Digite ao menos 2 letras para buscar.</p></div>';
+    return;
+  }
+  const found = meds.filter(m => m.name.toLowerCase().includes(v) || m.type.toLowerCase().includes(v) || m.cat.toLowerCase().includes(v));
+  if (!found.length) {
+    el.innerHTML = '<div class="empty-state"><div class="es-icon">🔍</div><p>Nenhum medicamento encontrado. Tente outro nome.</p></div>';
+    return;
+  }
+  el.innerHTML = found.map(m => `
+    <div class="med-card">
+      <div class="med-card-header">
+        <div>
+          <div class="med-name">${m.name}</div>
+          <div class="badges" style="margin-top:6px;">
+            <span class="badge ${m.badge}">${m.type}</span>
+            ${m.receita ? '<span class="badge badge-red">⚠️ Requer receita</span>' : '<span class="badge badge-green">Venda livre</span>'}
+          </div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:4px;">${m.cat}</div>
+        </div>
+      </div>
+      <div class="med-grid">
+        <div class="med-info"><div class="med-info-label">Para que serve</div><div class="med-info-val">${m.serve}</div></div>
+        <div class="med-info"><div class="med-info-label">Como usar</div><div class="med-info-val">${m.uso}</div></div>
+        <div class="med-info"><div class="med-info-label">Efeitos colaterais</div><div class="med-info-val">${m.efeitos}</div></div>
+        <div class="med-info"><div class="med-info-label">Atenção especial</div><div class="med-info-val">${m.risco}</div></div>
+      </div>
+      <div class="med-warning">⚠️ <span>Esta informação é educativa. Consulte sempre um médico ou farmacêutico antes de usar qualquer medicamento.</span></div>
+    </div>`).join('');
+}
+
+/* ───── SINTOMAS ───── */
+const symData = {
+  'dor-cabeca':{ icon:'🤕', label:'Dor de cabeça', cause:'Estresse, desidratação, tensão muscular, sinusite, hipertensão ou enxaqueca.', ori:'Descanse em local calmo e escuro. Beba água. Compressa fria na testa pode ajudar. Analgésico (paracetamol/dipirona) somente se necessário e sem contraindicação.', procurar:'Dor muito intensa e repentina ("a pior da vida"), com rigidez no pescoço, febre ou alterações de visão — vá ao pronto-socorro.', warn:false },
+  'febre':{ icon:'🌡️', label:'Febre', cause:'Infecção viral (gripe, COVID), infecção bacteriana, reação inflamatória ou, raramente, doenças mais graves.', ori:'Hidrate-se bem (água, suco, soro oral). Paracetamol ou dipirona para aliviar o desconforto. Compressas mornas no corpo.', procurar:'Febre acima de 39°C, durando mais de 3 dias, em bebês, idosos ou imunossuprimidos — procure atendimento.', warn:true },
+  'garganta':{ icon:'😮', label:'Dor de garganta', cause:'Resfriado, gripe, faringite viral ou bacteriana (estreptococo), amigdalite ou refluxo.', ori:'Gargarejo com água morna e sal. Mel com limão pode aliviar. Mantenha boa hidratação e evite irritantes (cigarro, bebida gelada).', procurar:'Dificuldade para engolir, febre acima de 38,5°C, gânglios inchados, placas brancas na garganta — pode ser bacteriano, exige antibiótico.', warn:false },
+  'estomago':{ icon:'🤢', label:'Dor no estômago', cause:'Gastrite, indigestão, intoxicação alimentar, úlcera, infecção por H. pylori, síndrome do intestino irritável.', ori:'Evite comidas gordurosas, picantes e café. Coma em pequenas quantidades. Não tome antiácido por mais de 2 semanas sem diagnóstico.', procurar:'Dor muito intensa, vômito com sangue, fezes escuras, perda de peso sem causa — procure médico urgente.', warn:true },
+  'tosse':{ icon:'😷', label:'Tosse', cause:'Resfriado, gripe, alergia, rinite, asma, bronquite, refluxo ou, menos comum, pneumonia.', ori:'Mel com limão aquece a garganta. Inalação com vapor de água úmida. Hidrate-se. Evite ambientes com pó, fumaça e ar condicionado por longos períodos.', procurar:'Tosse com sangue, febre alta, falta de ar, duração maior que 3 semanas — consulte médico.', warn:false },
+  'corpo':{ icon:'💪', label:'Dores no corpo', cause:'Gripe, febre, atividade física intensa, fibromialgia, lúpus, dengue ou outras infecções virais.', ori:'Repouso e hidratação são fundamentais. Analgésico somente sob orientação. Banho morno pode aliviar tensão muscular.', procurar:'Dores intensas, articulações inchadas, febre associada, manchas vermelhas na pele — procure médico.', warn:false },
+  'nausea':{ icon:'🥴', label:'Náusea / Vômito', cause:'Indigestão, intoxicação alimentar, gastroenterite, gestação, reação a medicamento, labirintite ou enjoo de movimento.', ori:'Fique em repouso, evite alimentos sólidos inicialmente. Beba líquidos em pequenos goles para evitar desidratação. Gengibre pode ajudar na náusea leve.', procurar:'Vômito persistente por mais de 24h, sangue no vômito, sinais de desidratação (boca seca, olhos fundos, urina escura), dor abdominal intensa.', warn:true },
+  'alergia':{ icon:'🌿', label:'Alergia', cause:'Pólens, ácaros, pelos de animais, alimentos, medicamentos, picadas de insetos, látex, cosméticos.', ori:'Afaste-se do agente alergênico se identificado. Anti-histamínico (loratadina, cetirizina) para alívio dos sintomas. Lave olhos e nariz com soro fisiológico.', procurar:'Dificuldade respiratória, inchaço na garganta/rosto, queda de pressão, urticária generalizada — EMERGÊNCIA, ligue 192.', warn:true },
+  'insonia':{ icon:'😴', label:'Insônia', cause:'Estresse, ansiedade, depressão, apneia do sono, uso de cafeína, álcool ou eletrônicos antes de dormir, dor crônica.', ori:'Estabeleça horários regulares para dormir. Evite telas 1h antes de deitar. Ambiente escuro e fresco. Evite cafeína após as 15h. Não use remédios para dormir sem prescrição.', procurar:'Insônia persistente por mais de 4 semanas prejudicando sua qualidade de vida e saúde — consulte médico.', warn:false },
+  'respiracao':{ icon:'🫁', label:'Dificuldade respiratória', cause:'Asma, bronquite, pneumonia, ansiedade, insuficiência cardíaca, anafilaxia, COVID-19, embolia pulmonar.', ori:'Sente-se em posição ereta. Se tiver medicação prescrita (inalador), use imediatamente. Mantenha a calma para não agravar a falta de ar.', procurar:'QUALQUER dificuldade respiratória significativa, lábios roxos ou azulados, dor no peito — EMERGÊNCIA, ligue 192 imediatamente.', warn:true },
+};
+
+let selected = new Set();
+function toggleSym(el, key) {
+  el.classList.toggle('active');
+  selected.has(key) ? selected.delete(key) : selected.add(key);
+}
+
+function showSymResult() {
+  const el = document.getElementById('sym-results');
+  if (!selected.size) {
+    el.innerHTML = '<p style="text-align:center;color:var(--gray-600);padding:16px;">⚠️ Selecione ao menos um sintoma acima.</p>';
+    return;
+  }
+  let html = '';
+  selected.forEach(k => {
+    const d = symData[k];
+    if (!d) return;
+    html += `<div class="sym-result-card">
+      <div class="sym-result-title">${d.icon} ${d.label}</div>
+      <div class="sym-result-row"><span class="sym-result-lbl">Causas comuns</span><span>${d.cause}</span></div>
+      <div class="sym-result-row"><span class="sym-result-lbl">Orientação</span><span>${d.ori}</span></div>
+      ${d.warn ? `<div class="sym-alert">⚠️ <span><strong>Procure médico se:</strong> ${d.procurar}</span></div>` : `<div style="font-size:13px;color:var(--gray-600);margin-top:8px;padding:10px;background:var(--gray-100);border-radius:8px;">ℹ️ <strong>Quando procurar ajuda:</strong> ${d.procurar}</div>`}
+    </div>`;
+  });
+  el.innerHTML = html;
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ───── APRENDER ───── */
+function toggleLearn(id, btn) {
+  const el = document.getElementById(id);
+  const open = el.classList.toggle('open');
+  btn.textContent = open ? '▲ Recolher' : '▼ Saiba mais';
+}
+
+/* ───── QUIZ ───── */
+const questions = [
+  { q:"Há quantos dias você está com esses sintomas?", sub:"Sintomas recentes vs prolongados importam muito.", opts:[
+    { icon:"🕐", label:"Menos de 2 dias", risk:0 },
+    { icon:"📅", label:"3 a 7 dias", risk:1 },
+    { icon:"🗓️", label:"Mais de 1 semana", risk:2 },
+  ]},
+  { q:"Você está com febre?", sub:"Febre indica que o organismo está combatendo algo.", opts:[
+    { icon:"❄️", label:"Não tenho febre", risk:0 },
+    { icon:"🌡️", label:"Febre leve (até 38°C)", risk:1 },
+    { icon:"🔥", label:"Febre alta (acima de 38,5°C)", risk:2 },
+  ]},
+  { q:"Você está sentindo dificuldade para respirar?", sub:"Falta de ar é sempre sinal de alerta.", opts:[
+    { icon:"😊", label:"Não, respiro normalmente", risk:0 },
+    { icon:"😮‍💨", label:"Leve falta de ar aos esforços", risk:1 },
+    { icon:"😰", label:"Sim, em repouso também", risk:3 },
+  ]},
+  { q:"Você tem alguma condição de saúde especial?", sub:"Algumas condições aumentam o risco de complicações.", opts:[
+    { icon:"💚", label:"Não, sou saudável", risk:0 },
+    { icon:"💊", label:"Sim, uso medicamentos contínuos", risk:1 },
+    { icon:"🏥", label:"Sim, doença crônica grave", risk:2 },
+  ]},
+  { q:"Seus sintomas estão piorando ao longo do tempo?", sub:"A evolução dos sintomas é um indicador importante.", opts:[
+    { icon:"📉", label:"Estou melhorando", risk:0 },
+    { icon:"➡️", label:"Permanecem iguais", risk:1 },
+    { icon:"📈", label:"Estão piorando", risk:2 },
+  ]},
+];
+
+let qIdx = 0, riskTotal = 0;
+
+function renderQuiz() {
+  const prog = document.getElementById('quiz-progress');
+  const cont = document.getElementById('quiz-container');
+  prog.innerHTML = questions.map((_, i) =>
+    `<div class="quiz-step ${i < qIdx ? 'done' : i === qIdx ? 'active' : ''}"></div>`).join('');
+  if (qIdx >= questions.length) {
+    let result, icon, title, msg;
+    if (riskTotal >= 6) {
+      result='go'; icon='🏥'; title='Procure atendimento médico agora';
+      msg='Seus sintomas indicam que você precisa de avaliação médica urgente. Não tente se automedicar. Dirija-se ao pronto-socorro ou ligue 192.';
+    } else if (riskTotal >= 3) {
+      result='go'; icon='👨‍⚕️'; title='Recomendamos consultar um médico';
+      msg='Seus sintomas sugerem que um diagnóstico profissional é importante. Agende uma consulta em breve ou vá a uma UBS.';
+    } else {
+      result='stay'; icon='🛌'; title='Você pode se recuperar em casa';
+      msg='Seus sintomas parecem leves. Repouso, hidratação e acompanhamento dos sintomas é suficiente por enquanto. Se piorar, consulte um médico.';
+    }
+    prog.innerHTML = questions.map(() => `<div class="quiz-step done"></div>`).join('');
+    cont.innerHTML = `<div class="quiz-result ${result}">
+      <div class="r-icon">${icon}</div>
+      <div class="r-title">${title}</div>
+      <p>${msg}</p>
+      ${result==='go' ? '<p><strong>SAMU: 192 &nbsp;|&nbsp; Bombeiros: 193</strong></p>' : ''}
+      <button class="quiz-restart" onclick="restartQuiz()">↺ Refazer avaliação</button>
+    </div>`;
+    return;
+  }
+  const q = questions[qIdx];
+  cont.innerHTML = `
+    <div class="quiz-question">${q.q}</div>
+    <div class="quiz-sub">${q.sub}</div>
+    <div class="quiz-options">
+      ${q.opts.map(o => `<button class="quiz-opt" onclick="answerQuiz(${o.risk})">
+        <div class="quiz-opt-icon" style="background:var(--gray-200);">${o.icon}</div>
+        <span>${o.label}</span>
+      </button>`).join('')}
+    </div>`;
+}
+
+function answerQuiz(risk) { riskTotal += risk; qIdx++; renderQuiz(); }
+function restartQuiz() { qIdx = 0; riskTotal = 0; renderQuiz(); }
+
+/* ───── LEMBRETE ───── */
+function addReminder() {
+  const name = document.getElementById('r-name').value.trim();
+  const time = document.getElementById('r-time').value;
+  const freq = document.getElementById('r-freq').value;
+  const obs = document.getElementById('r-obs').value.trim();
+  if (!name || !time) return;
+  const icons = ['💊','🩺','💉','🌿','🔵','🟢'];
+  const icon = icons[Math.floor(Math.random()*icons.length)];
+  const list = document.getElementById('reminders-list');
+  const div = document.createElement('div');
+  div.className = 'reminder-item';
+  div.innerHTML = `<span class="ri-icon">${icon}</span>
+    <div class="ri-info">
+      <div class="ri-name">${name}</div>
+      <div class="ri-time">⏰ ${time} · ${freq}${obs ? ' · '+obs : ''}</div>
+    </div>
+    <span class="ri-badge">Ativo</span>
+    <button class="ri-del" onclick="this.closest('.reminder-item').remove()">✕</button>`;
+  list.appendChild(div);
+  document.getElementById('r-name').value = '';
+  document.getElementById('r-time').value = '';
+  document.getElementById('r-obs').value = '';
+  const msg = document.getElementById('r-msg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+
+/* ───── NAV ───── */
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+/* ───── FADE-IN ───── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+/* ───── INIT ───── */
+renderQuiz();
+</script>
+</body>
+</html>
